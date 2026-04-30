@@ -1,18 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define MAX 2000
 
 int main(int argc, char const *argv[])
 {
-    if (argc != 2)
-    {
-        printf("Ha olvidado el archivo de texto.\n");
-        exit(1);
-    }
 
-    char nombreArchivo = argv[1];
-
-    FILE *file = fopen(nombreArchivo, "r");
+    // char nombreArchivo = scanf();
 
     // while (1)
     //{
@@ -28,38 +22,78 @@ int main(int argc, char const *argv[])
     // }
     //}
 
-    char comando_entrada[256];
+    char texto_entrada[256];
+    FILE *file;
     while (1)
     {
-        fgets(comando_entrada, 256, stdin);
 
-        comando_entrada[strcspn(comando_entrada, "\n")] = 0;
-
-        char *palabras[256];
-        char *token = strtok(comando_entrada, " ");
-        int i = 0;
-
-        while (token != NULL)
+        while (1)
         {
-            palabras[i] = token;
-            token = strtok(NULL, " ");
-            i++;
-            if (i >= 256)
+            printf("Ingrese el nombre del archivo de texto (Ej: mapa_turistico.txt): ");
+            fgets(texto_entrada, 256, stdin);
+
+            texto_entrada[strcspn(texto_entrada, "\n")] = 0;
+
+            if (strcasecmp(texto_entrada, "exit") == 0) // modificar para que salga con un mensaje especifico
+            {
+                return 0;
+            }
+
+            file = fopen(texto_entrada, "r");
+            if (!file)
+            {
+                printf("Error al abrir el archivo\n");
+            }
+
+            else
+            {
                 break;
+            }
         }
 
-        if (strcasecmp(palabras[0], "exit") == 0)
+        char buffer[MAX];
+        char *token;
+        char *lineas[256];
+
+        int n_linea = 0;
+        // Mientras queden líneas por leer, avanzamos
+        while (feof(file) != 1)
         {
-            break;
+            // Leemos la línea actual y la dejamos copiada en buffer
+            if (fgets(buffer, MAX, file))
+            {
+                printf("Línea %d: %s", n_linea + 1, buffer);
+                lineas[n_linea] = buffer;
+                n_linea++;
+            }
         }
 
-        if (strlen(*palabras) != 4)
-        {
-            printf("Error, comando mal escrito\n");
-            continue;
-            ;
-        }
+        /*
+                char *palabras[256];
+                char *token = strtok(texto_entrada, " ");
+                int i = 0;
+                while (token != NULL)
+                {
+                    palabras[i] = token;
+                    token = strtok(NULL, " ");
+                    i++;
+                    if (i >= 256)
+                        break;
+                }
 
+                if (strcasecmp(palabras[0], "exit") == 0)
+                {
+                    break;
+                }
+
+                if (strlen(*palabras) != 4)
+                {
+                    printf("Error, intrucción mal escrita\n");
+                    continue;
+                    ;
+                }
+        */
+        printf("\n");
         return 0;
     }
 }
