@@ -107,7 +107,7 @@ int main(int argc, char const *argv[])
 
                         if (lista_calles[j].sentido == 'Y') // Si el sentido Y, la coordenada y será la posición dada por el archivo
                         {
-                            lista_puntos[i].x = pos_leida;
+                            lista_puntos[i].y = pos_leida;
                         }
                             if (lista_calles[j].x1 == lista_calles[j].x2){ //Si es horizontal, x será constante (la de la calle)
                                 lista_puntos[i].x = lista_calles[j].x1;
