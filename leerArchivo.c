@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "header.h"
 
 
 int leerArchivo(char* nombreArchivo, Grafo* mapaTuristico){
@@ -61,6 +61,5 @@ int leerArchivo(char* nombreArchivo, Grafo* mapaTuristico){
     }
 
     fclose(file);
-    printf("Mapa cargado!\n");
     return 1;
 }

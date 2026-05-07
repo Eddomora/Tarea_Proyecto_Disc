@@ -13,6 +13,6 @@ void puntosANodo(Grafo* mapa){
 		mapa->grafo[indice].es_turistico= 1;
 		mapa->grafo[indice].num_adyacentes= 0;
 
-		mapa->num_nodos++
+		mapa->num_nodos++;
 	}
 }
