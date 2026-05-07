@@ -28,17 +28,40 @@ int nodoIntersecciones(Calle* calles, int num_calles, Nodo* arreglo_nodosInterse
 				double x_cruce=  x1 + t * (x2-x1);
 				double y_cruce= y1 + t * (y2 - y1);
 
-				arreglo_nodosIntersecciones[contador_intersecciones].x= x_cruce;
-				arreglo_nodosIntersecciones[contador_intersecciones].y= y_cruce;
+				int existe_duplicado = 0;
+                for (int k = 0; k < contador_intersecciones; k++) {
+                    if (fabs(arreglo_nodosIntersecciones[k].x - x_cruce) < 0.001 &&
+                        fabs(arreglo_nodosIntersecciones[k].y - y_cruce) < 0.001) {
+                        
+                        existe_duplicado = 1;
 
-				arreglo_nodosIntersecciones[contador_intersecciones].es_turistico= 0;
-				arreglo_nodosIntersecciones[contador_intersecciones].num_adyacentes= 0;
+                        if (strstr(arreglo_nodosIntersecciones[k].nombre, calles[i].nombre) == NULL) {
+                            strcat(arreglo_nodosIntersecciones[k].nombre, "-");
+                            strcat(arreglo_nodosIntersecciones[k].nombre, calles[i].nombre);
+                        }
 
-				snprintf(arreglo_nodosIntersecciones[contador_intersecciones].nombre, 100, "%s-%s", calles[i].nombre, calles[j].nombre);
-				contador_intersecciones++;
+                        else if (strstr(arreglo_nodosIntersecciones[k].nombre, calles[j].nombre) == NULL) {
+	                             strcat(arreglo_nodosIntersecciones[k].nombre, "-");
+	                             strcat(arreglo_nodosIntersecciones[k].nombre, calles[j].nombre);
+                        }
+                        
+                        break;
+                    }
+                }
+            	if(existe_duplicado == 0){
 
+					arreglo_nodosIntersecciones[contador_intersecciones].x= x_cruce;
+					arreglo_nodosIntersecciones[contador_intersecciones].y= y_cruce;
+
+					arreglo_nodosIntersecciones[contador_intersecciones].es_turistico= 0;
+					arreglo_nodosIntersecciones[contador_intersecciones].num_adyacentes= 0;
+
+					snprintf(arreglo_nodosIntersecciones[contador_intersecciones].nombre, 100, "%s-%s", calles[i].nombre, calles[j].nombre);
+					contador_intersecciones++;
 				}
+
 			}
+		}
 		}
 	}
 	return contador_intersecciones;

@@ -21,11 +21,11 @@ typedef struct{
 
 //grafo
 typedef struct Nodo{
-	char nombre[50];
+	char nombre[100];
 	double x, y;
 	int es_turistico;
 
-	struct Nodo* adyacentes[10];
+	struct Nodo* adyacentes[15];
 	int num_adyacentes;
 }Nodo;
 
