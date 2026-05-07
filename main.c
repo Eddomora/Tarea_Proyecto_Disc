@@ -17,17 +17,17 @@ int main(int argc, char const *argv[])
         texto_entrada[strcspn(texto_entrada, "\n")]= 0; //Limpiar enter
 
         if (strcasecmp(texto_entrada, "exit") == 0){
-            printf("SALIENDO...");
+            printf("SALIENDO...\n");
             break;
         }
 
         if(leerArchivo(texto_entrada, &mapaTuristico) == 1){
-            printf("Archivo cargado");
+            printf("Archivo cargado\n");
 
             crearGrafo(&mapaTuristico);
-            printf("Grafo generado");
+            printf("Grafo generado\n");
         }
     }
-    
+
     return 0;
 }

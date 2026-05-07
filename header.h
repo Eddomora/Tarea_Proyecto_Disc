@@ -19,6 +19,7 @@ typedef struct{
     double x, y;
 }PuntosInteres;
 
+//grafo
 typedef struct Nodo{
 	char nombre[50];
 	double x, y;

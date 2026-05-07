@@ -34,7 +34,7 @@ int nodoIntersecciones(Calle* calles, int num_calles, Nodo* arreglo_nodosInterse
 				arreglo_nodosIntersecciones[contador_intersecciones].es_turistico= 0;
 				arreglo_nodosIntersecciones[contador_intersecciones].num_adyacentes= 0;
 
-				sprintf(arreglo_nodosIntersecciones[contador_intersecciones].nombre, "%s-%s", calles[i].nombre, calles[j].nombre);
+				snprintf(arreglo_nodosIntersecciones[contador_intersecciones].nombre, 100, "%s-%s", calles[i].nombre, calles[j].nombre);
 				contador_intersecciones++;
 
 				}
