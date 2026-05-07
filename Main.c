@@ -1,40 +1,19 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-typedef struct{
-    char nombre[50];
-    double x1, y1, x2, y2;
-    char sentido;
-} Calle;
-
-typedef struct{
-    char nombre_punto[50];
-    char nombre_calle[50];
-    double x, y;
-}PuntosInteres;
+#include "header.h"
 
 int main(int argc, char const *argv[])
 {
 
-    // char nombreArchivo = scanf();
-
-    // while (1)
-    //{
-
-    // e = fgetc(file);
-    // if (isdigit(e))
-    // {
-    //     (*c)++;
-    // }
-    // else if (e == '\n' || e == EOF)
-    // {
-    //     return;
-    // }
-    //}
-
     char texto_entrada[256];
     FILE *file;
+
+    Grafo mapaTuristico;
+    mapaTuristico.num_calles= 0;
+    mapaTuristico.num_puntos= 0;
+    mapaTuristico.num_nodos= 0;    
+
+
+
+
     while (1) //Bucle principal
     {
         while (1) //Pedir archivo hasta que sea valido
@@ -63,84 +42,66 @@ int main(int argc, char const *argv[])
 
         char buffer[256];
 
-        Calle lista_calles[50]; //Lista de structs para guardar calles
-        PuntosInteres lista_puntos[50]; //Lista de structs para guardar puntos de interés
 
-        int num_calles= 0, num_puntos= 0; //Variables para guardar la cantidad de lineas que vienen después
         if(fgets(buffer, 256, file))
         {
-            sscanf(buffer, "%d", &num_calles);  //guardar numero de lineas de las calles
+            sscanf(buffer, "%d", &mapaTuristico.num_calles);  //guardar numero de lineas de las calles
         }
 
-        for(int i= 0; i < num_calles; i++){ //ciclo que guarda cada dato de la linea en la lista de structs de calles
+        for(int i= 0; i < mapaTuristico.num_calles; i++){ //ciclo que guarda cada dato de la linea en la lista de structs de calles
             if(fgets(buffer, 256, file)){
-                sscanf(buffer, "%s %lf %lf %lf %lf %c", lista_calles[i].nombre, &lista_calles[i].x1, &lista_calles[i].y1, &lista_calles[i].x2, &lista_calles[i].y2, &lista_calles[i].sentido);    
+                sscanf(buffer, "%s %lf %lf %lf %lf %c", mapaTuristico.calles[i].nombre, &mapaTuristico.calles[i].x1, &mapaTuristico.calles[i].y1, &mapaTuristico.calles[i].x2, &mapaTuristico.calles[i].y2, &mapaTuristico.calles[i].sentido);    
             }
         }
 
         if(fgets(buffer, 256, file))
         {
-            sscanf(buffer, "%d", &num_puntos); //guardar numero de lineas de puntos
+            sscanf(buffer, "%d", &mapaTuristico.num_puntos); //guardar numero de lineas de puntos
         }
-        for (int i= 0; i < num_puntos; i++)
+
+        for (int i= 0; i < mapaTuristico.num_puntos; i++){
             if(fgets(buffer, 256, file)){
                 double pos_leida;
 
-                sscanf(buffer, "%s %s %lf", lista_puntos[i].nombre_punto, lista_puntos[i].nombre_calle, &pos_leida);
+                sscanf(buffer, "%s %s %lf", mapaTuristico.puntos[i].nombre_punto, mapaTuristico.puntos[i].nombre_calle, &pos_leida);
 
-                for(int j= 0; j < num_calles; j++){
-                    if (strcmp(lista_puntos[i].nombre_calle, lista_calles[j].nombre) == 0)
+                for(int j= 0; j < mapaTuristico.num_calles; j++){
+                    if (strcmp(mapaTuristico.puntos[i].nombre_calle, mapaTuristico.calles[j].nombre) == 0){
 
-                        if (lista_calles[j].sentido == 'X') // Si el sentido X, la coordenada x será la posición dada por el archivo
+                        Calle c= mapaTuristico.calles[j];
+                        double t= 0.0;
+
+
+                        if (c.sentido == 'X') // Si el sentido X, la coordenada x será la posición dada por el archivo
                         {
-                            lista_puntos[i].x = pos_leida;
+                            mapaTuristico.puntos[i].x = pos_leida;
+                            t= (pos_leida - c.x1) / (c.x2 - c.x1);
+                            mapaTuristico.puntos[i].y= c.y1 + t * (c.y2 - c.y1);
+
                         }
-                            if (lista_calles[j].y1 == lista_calles[j].y2){ //Si es horizontal, y será constante (la de la calle)
-                                lista_puntos[i].y = lista_calles[j].y1;
 
-                            } else{ // Si es diagonal, se calcula la pendiente para usar la formula punto-pendiente
-
-                                double m= (lista_calles[j].y2 - lista_calles[j].y1)/(lista_calles[j].x2 - lista_calles[j].x1);
-                                lista_puntos[i].y= lista_calles[j].y1 + m *(pos_leida - lista_calles[j].x1);
-                            }
-
-
-                        if (lista_calles[j].sentido == 'Y') // Si el sentido Y, la coordenada y será la posición dada por el archivo
+                        else if (c.sentido == 'Y')
                         {
-                            lista_puntos[i].y = pos_leida;
+                            mapaTuristico.puntos[i].y= pos_leida;
+                            t= (pos_leida - c.y1) / (c.y2 - c.y1);
+                            mapaTuristico.puntos[i].x= c.x1 + t * (c.x2 - c.x1);
                         }
-                            if (lista_calles[j].x1 == lista_calles[j].x2){ //Si es horizontal, x será constante (la de la calle)
-                                lista_puntos[i].x = lista_calles[j].x1;
-
-                            } else{ // Si es diagonal, se calcula la pendiente para usar la formula punto-pendiente
-
-                                double m= (lista_calles[j].y2 - lista_calles[j].y1)/(lista_calles[j].x2 - lista_calles[j].x1);
-                                lista_puntos[i].x= lista_calles[j].x1 + m *(pos_leida - lista_calles[j].y1);
-                            }
+                        break;
+                    }
                 }
             }
+        }
 
         fclose(file);
         printf("Mapa cargado!\n");
 
-        /* Prueba para ver si imprime bien
-        for (int i = 0; i < num_calles; i++) {
-            printf("%s | Inicio: %.2f, %.2f | Fin: %.2f, %.2f | Sentido: %c\n", 
+        crearGrafo(&mapaTuristico);
 
-            lista_calles[i].nombre, 
-            lista_calles[i].x1, lista_calles[i].y1, 
-            lista_calles[i].x2, lista_calles[i].y2, 
-            lista_calles[i].sentido);
-        }
 
-        for (int i = 0; i < num_puntos; i++) {
-            printf("%s | %s | Coordenadas: %.2f, %.2f\n",  
-            lista_puntos[i].nombre_punto, 
-            lista_puntos[i].nombre_calle, 
-            lista_puntos[i].x, 
-            lista_puntos[i].y);
-        }
-        */
+
+
+
+
         return 0;
     }
 }
