@@ -40,6 +40,7 @@ typedef struct{
 
 
 int leerArchivo(char* nombreArchivo, Grafo* mapaTuristico);
+int contieneCalleExacta(const char* nombreNodo, const char* nombreCalle)
 void crearGrafo(Grafo* mapa);
 void puntosANodo(Grafo* mapa);
 int nodoIntersecciones(Calle *calles, int num_calles, Nodo *arreglo_nodosIntersecciones);

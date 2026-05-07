@@ -35,7 +35,7 @@ void crearGrafo(Grafo *mapa){
 			int en_calle= 0;
 
 			if(mapa->grafo[j].es_turistico == 0){ // Si no es turistico se busca el nombre de la calle actual en el del nodo.
-				if (strstr(mapa->grafo[j].nombre, mapa->calles[i].nombre) != NULL){
+				if (contieneCalleExacta(mapa->grafo[j].nombre, mapa->calles[i].nombre) == 1){
 					en_calle= 1;
 				}
 
