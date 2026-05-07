@@ -1,0 +1,45 @@
+#include "header.h"
+
+int nodoIntersecciones(Calle* calles, int num_calles, Nodo* arreglo_nodosIntersecciones){
+	int contador_intersecciones= 0;
+
+
+	for(int i= 0; i < num_calles; i++){
+		for(int j= i+1; j < num_calles; j++){
+
+			
+		double x1= calles[i].x1;
+		double y1= calles[i].y1;
+		double x2= calles[i].x2;
+		double y2= calles[i].y2;
+
+		double x3= calles[j].x1;
+		double y3= calles[j].y1;
+		double x4= calles[j].x2;
+		double y4= calles[j].y2;
+
+		double denominador= (x1 - x2) * (y3 - y4) - (y1 -y2) * (x3 - x4);
+
+		if(denominador != 0){
+			double t= ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denominador;
+			double u= ((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denominador;
+
+			if(t >= 0.0 && t <= 1.0 && u >= 0.0 && u <= 1.0){
+				double x_cruce=  x1 + t * (x2-x1);
+				double y_cruce= y1 + t * (y2 - y1);
+
+				arreglo_nodosIntersecciones[contador_intersecciones].x= x_cruce;
+				arreglo_nodosIntersecciones[contador_intersecciones].y= y_cruce;
+
+				arreglo_nodosIntersecciones[contador_intersecciones].es_turistico= 0;
+				arreglo_nodosIntersecciones[contador_intersecciones].num_adyacentes= 0;
+
+				sprintf(arreglo_nodosIntersecciones[contador_intersecciones].nombre, "%s-%s", calles[i].nombre, calles[j].nombre);
+				contador_intersecciones++;
+
+				}
+			}
+		}
+	}
+	return contador_intersecciones;
+}
