@@ -35,12 +35,12 @@ int nodoIntersecciones(Calle* calles, int num_calles, Nodo* arreglo_nodosInterse
                         
                         existe_duplicado = 1;
 
-                        if (strstr(arreglo_nodosIntersecciones[k].nombre, calles[i].nombre) == NULL) {
+                        if (contieneCalleExacta(arreglo_nodosIntersecciones[k].nombre, calles[i].nombre) == 0) {
                             strcat(arreglo_nodosIntersecciones[k].nombre, "-");
                             strcat(arreglo_nodosIntersecciones[k].nombre, calles[i].nombre);
                         }
 
-                        else if (strstr(arreglo_nodosIntersecciones[k].nombre, calles[j].nombre) == NULL) {
+                        else if (contieneCalleExacta(arreglo_nodosIntersecciones[k].nombre, calles[j].nombre) == 0) {
 	                             strcat(arreglo_nodosIntersecciones[k].nombre, "-");
 	                             strcat(arreglo_nodosIntersecciones[k].nombre, calles[j].nombre);
                         }
