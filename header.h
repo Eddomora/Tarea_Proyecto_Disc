@@ -38,6 +38,7 @@ typedef struct{
 } Grafo;
 
 
+int leerArchivo(char* nombreArchivo, Grafo* mapaTuristico);
 void crearGrafo(Grafo* mapa);
 void puntosANodo(Grafo* mapa);
 int nodoIntersecciones(Calle *calles, int num_calles, Nodo *arreglo_nodosIntersecciones);
