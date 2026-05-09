@@ -1,7 +1,7 @@
 #include "header.h"
 
 int contieneCalleExacta(const char* nombreNodo, const char* nombreCalle){
-	char* pos= strstr(nombreNodo, nombreCalle); //Si encuentra una coincidencia, apunta a la dirección de memoria donde la encontró en el primer string.
+	const char* pos= strstr(nombreNodo, nombreCalle); //Si encuentra una coincidencia, apunta a la dirección de memoria donde la encontró en el primer string.
 
 	while (pos != NULL){
 		int lenCalle= strlen(nombreCalle);

@@ -28,6 +28,10 @@ typedef struct Nodo{
 
 	struct Nodo* adyacentes[15];
 	int num_adyacentes;
+
+	int visitado_turistico;
+    int visitado_dfs;
+    struct Nodo* predecesor;
 }Nodo;
 
 typedef struct{
@@ -45,5 +49,7 @@ int contieneCalleExacta(const char* nombreNodo, const char* nombreCalle);
 void crearGrafo(Grafo* mapa);
 void puntosANodo(Grafo* mapa);
 int nodoIntersecciones(Calle *calles, int num_calles, Nodo *arreglo_nodosIntersecciones);
+
+void iniciarRecorrido(Grafo* mapa, Nodo** arreglo_puntos, int total_turisticos);
 
 #endif

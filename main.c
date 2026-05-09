@@ -26,6 +26,17 @@ int main(int argc, char const *argv[])
 
             crearGrafo(&mapaTuristico);
             printf("Grafo generado\n");
+
+
+            Nodo* ordenPuntos[mapaTuristico.num_puntos];
+            int inicio_turisticos= mapaTuristico.num_nodos - mapaTuristico.num_puntos;
+
+            for(int i= 0; i < mapaTuristico.num_puntos; i++){
+                    ordenPuntos[i]= &mapaTuristico.grafo[inicio_turisticos + i];
+            }
+
+            iniciarRecorrido(&mapaTuristico, ordenPuntos, mapaTuristico.num_puntos);
+
         }
     }
 
