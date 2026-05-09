@@ -22,7 +22,7 @@ int nodoIntersecciones(Calle* calles, int num_calles, Nodo* arreglo_nodosInterse
 
 		if(denominador != 0){
 			double t= ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denominador;
-			double u= ((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denominador;
+			double u= ((x1 - x3) * (y1 - y2) - (y1 - y3) * (x1 - x2)) / denominador;
 
 			if(t >= 0.0 && t <= 1.0 && u >= 0.0 && u <= 1.0){
 				double x_cruce=  x1 + t * (x2-x1);
