@@ -34,13 +34,12 @@ void imprimirCamino(Nodo* actual){
 		return;
 	}
 
-	imprimirCamino(actual->predecesor);
-
-	printf("%s", actual->nombre);
-
-	if(actual->visitado_dfs == 1){
+	if(actual->predecesor != NULL){
+		imprimirCamino(actual->predecesor);
 		printf(" -> ");
 	}
+
+	printf("[%s]", actual->nombre);
 
 }
 
@@ -51,18 +50,18 @@ void iniciarRecorrido(Grafo* mapa, Nodo** arreglo_puntos, int total_turisticos){
 		arreglo_puntos[i]->visitado_turistico= 0;
 	}
 
-	Nodo* origen_actual= arreglo_puntos[0];
+	Nodo* origen_actual= arreglo_puntos[0]; //Orden según lo ingresado en el archivo
 	origen_actual->visitado_turistico= 1;
 
 
-	for(int i= 1; i < total_turisticos; i++){
+	for(int i= 1; i < total_turisticos; i++){ //Ciclo para para cambiar el destino
 		Nodo* destino= arreglo_puntos[i];
 
-		if(destino->visitado_turistico == 1){
+		if(destino->visitado_turistico == 1){ //Si ya se pasó por este punto, se salta
 			continue;
 		}
 
-		for(int j= 0; j < mapa->num_nodos; j++){
+		for(int j= 0; j < mapa->num_nodos; j++){ //Limpiar intersecciones para pasarselas al dfs
 			mapa->grafo[j].visitado_dfs= 0;
 			mapa->grafo[j].predecesor= NULL;
 		}
@@ -77,7 +76,10 @@ void iniciarRecorrido(Grafo* mapa, Nodo** arreglo_puntos, int total_turisticos){
 				rastro= rastro->predecesor;
 			}
 
+			printf("Tramo: %s a %s\n", origen_actual->nombre, destino->nombre);
+			printf("Camino: ");
 			imprimirCamino(destino);
+			printf("\n\n");
 			origen_actual= destino;
 		}
 		else{
